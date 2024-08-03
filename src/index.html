@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/icon-dice.svg">
+  <title>Advice Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+</head>
+<body onload="getAdvice()" class="flex justify-center bg-[#1f2632]">
+   
+  <div class="m-auto bg-[#323a49] rounded-xl flex flex-col items-center justify-center font-['Manrope'] p-[40px] max-w-[350px] lg:max-w-lg max-h-[500px] relative mt-[25vh]">
+      <p id="adviceNo" class="text-[12px] text-[#52ffa8] tracking-[.25em] font-bold mb-4"></p>
+      <h1 id="advice" class="text-[24px] lg:text-[28px] text-[#cee3e9] font-[800] text-center"></h1>
+      <img src="../images/pattern-divider-desktop.svg" alt="" class="mt-[40px] mb-[40px] w-full">
+      <button onclick="getAdvice()"  class="bg-[#52ffa8] rounded-full p-[20px] absolute -bottom-[30px] hover:shadow-[0_0_20px_10px_rgba(82,255,168,0.5)]" ><img src="../images/icon-dice.svg"/></button>
+  </div>
+
+  <script>
+      async function getAdvice() {
+          try {
+              const response = await fetch('https://api.adviceslip.com/advice?timestamp=${new Date().getTime()}');
+              const data = await response.json();
+              console.log(data)
+              document.getElementById('adviceNo').innerText = 'ADVICE ' + ' #' + data.slip.id;
+              document.getElementById('advice').innerText = '"' + data.slip.advice + '"' ;
+          } catch (error) {
+              document.getElementById('advice').innerText = 'Failed to fetch advice. Please try again.';
+              console.error('Error fetching advice:', error);
+          }
+      }
+  </script>
+</body>
+</html>
+
